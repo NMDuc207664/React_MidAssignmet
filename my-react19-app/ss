@@ -1,0 +1,1296 @@
+// export const deleteBook = async (id) => {
+//     try {
+//         // Gọi trực tiếp API xóa sách - backend sẽ xử lý cascade delete
+//         await api.delete(`/book/${id}`);
+//         return { success: true };
+//     } catch (error) {
+//         console.error(`Error deleting book with ID ${id}:`, error);
+//         throw error;
+//     }
+// };
+
+// /**
+//  * Lấy danh sách sách theo ID tác giả
+//  * @param {string} authorId - ID của tác giả
+//  * @returns {Promise<Array>} Mảng sách đã được chuẩn hóa
+//  */
+// export const fetchBooksByAuthorId = async (authorId) => {
+//     try {
+//         const response = await api.get(`/book/by-author/${authorId}`);
+//         return response.data.map((book) => ({
+//             ...book,
+//             authorIDs: book.bookAuthors?.map((ba) => ba.authorId) || [],
+//             genreIDs: book.bookGenres?.map((bg) => bg.genreId) || [],
+//             authorNames: book.bookAuthors?.map((ba) => ba.author?.name).filter(Boolean) || [],
+//             genreNames: book.bookGenres?.map((bg) => bg.genre?.name).filter(Boolean) || [],
+//         }));
+//     } catch (error) {
+//         console.error(`Error fetching books by author ID ${authorId}:`, error);
+//         throw error;
+//     }
+// };
+
+// /**
+//  * Lấy danh sách sách theo ID thể loại
+//  * @param {string} genreId - ID của thể loại
+//  * @returns {Promise<Array>} Mảng sách đã được chuẩn hóa
+//  */
+// export const fetchBooksByGenreId = async (genreId) => {
+//     try {
+//         const response = await api.get(`/book/by-genre/${genreId}`);
+//         return response.data.map((book) => ({
+//             ...book,
+//             authorIDs: book.bookAuthors?.map((ba) => ba.authorId) || [],
+//             genreIDs: book.bookGenres?.map((bg) => bg.genreId) || [],
+//             authorNames: book.bookAuthors?.map((ba) => ba.author?.name).filter(Boolean) || [],
+//             genreNames: book.bookGenres?.map((bg) => bg.genre?.name).filter(Boolean) || [],
+//         }));
+//     } catch (error) {
+//         console.error(`Error fetching books by genre ID ${genreId}:`, error);
+//         throw error;
+//     }
+// };
+// const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (!formData.username || !formData.password) {
+//         setError("All fields are required");
+//         return;
+//     }
+//     setLoading(true);
+//     setError("");
+//     // try {
+//     //   const response = await loginUseCase(formData);
+//     //   if (response.isAuthSucessful) {
+//     //     localStorage.setItem("token", response.token);
+//     //     navigate("/dashboard");
+//     //   } else {
+//     //     setError(response.errorMessage || "Login failed");
+//     //   }
+//     // } catch (err) {
+//     //   setError("An error occurred. Please try again.");
+//     //} finally {
+//     //setLoading(false);
+//     //}
+//     try {
+//         const response = await loginUseCase(formData);
+//         if (response.isAuthSucessful) {
+//             localStorage.setItem("auth_token", response.token); // Lưu token
+//             navigate("/");
+//         } else {
+//             setError("Login failed");
+//         }
+//     } catch (err) {
+//         setError(err.message || "Login failed");
+//     } finally {
+//         setLoading(false);
+//     }
+// };
+// // import React, { useState, useEffect } from "react";
+// // import CrudTable from "../components/CrudTable";
+// // import { getBorrowsUseCase, createBorrowUseCase, updateBorrowUseCase, deleteBorrowUseCase } from "../domain/UseCases/borrowUseCase";
+// // import { getBooksUseCase } from "../domain/UseCases/bookUseCase"; // Thêm để lấy danh sách sách
+
+// // const BorrowAdminSite = () => {
+// //     const [borrows, setBorrows] = useState([]);
+// //     const [books, setBooks] = useState([]);
+// //     const [error, setError] = useState(null);
+// //     const [currentPage, setCurrentPage] = useState(1);
+// //     const [pageSize, setPageSize] = useState(10);
+// //     const [totalItems, setTotalItems] = useState(0);
+// //     const [currentUser, setCurrentUser] = useState(null);
+
+// //     useEffect(() => {
+// //         const fetchData = async () => {
+// //             try {
+// //                 // Lấy danh sách các request mượn sách
+// //                 const borrowsData = await getBorrowsUseCase();
+// //                 setBorrows(borrowsData);
+// //                 setTotalItems(borrowsData.length);
+
+// //                 // Lấy danh sách sách từ database
+// //                 const booksData = await getBooksUseCase();
+// //                 setBooks(booksData);
+
+// //                 // Lấy thông tin người dùng hiện tại (từ localStorage hoặc context)
+// //                 const user = JSON.parse(localStorage.getItem("user")) || null;
+// //                 setCurrentUser(user);
+// //             } catch (error) {
+// //                 setError(error.message);
+// //                 console.error("Failed to fetch data:", error);
+// //             }
+// //         };
+// //         fetchData();
+// //     }, []);
+
+// //     const statusMap = {
+// //         0: "Waiting",
+// //         1: "Approved",
+// //         2: "Rejected",
+// //     };
+
+// //     const selectOptions = {
+// //         requestStatus: [
+// //             { value: 0, label: "Waiting" },
+// //             { value: 1, label: "Approved" },
+// //             { value: 2, label: "Rejected" },
+// //         ],
+// //         books: books.map((book) => ({
+// //             value: book.id,
+// //             label: `${book.title} (ID: ${book.id})`,
+// //         })),
+// //     };
+
+// //     const columns = [
+// //         { key: "id", label: "ID" },
+// //         {
+// //             key: "requestedDate",
+// //             label: "Requested Date",
+// //             render: (item) => new Date(item.requestedDate).toLocaleString(),
+// //         },
+// //         {
+// //             key: "requestStatus",
+// //             label: "Status",
+// //             render: (item) => statusMap[item.requestStatus] || "Unknown",
+// //         },
+// //         { key: "fullName", label: "Full Name" },
+// //         { key: "email", label: "Email" },
+// //         { key: "phoneNumber", label: "Phone Number" },
+// //         { key: "address", label: "Address" },
+// //         {
+// //             key: "borrowingDetails",
+// //             label: "Books",
+// //             render: (item) => item.borrowingDetails?.map((bd) => bd.bookName).join(", ") || "—",
+// //         },
+// //     ];
+
+// //     const formFields = [
+// //         {
+// //             key: "userId",
+// //             type: "text",
+// //             label: "User ID",
+// //             placeholder: "Leave empty for current user",
+// //             visible: (mode) => mode === "add",
+// //         },
+// //         {
+// //             key: "bookIds",
+// //             type: "multiselect",
+// //             label: "Books",
+// //             options: selectOptions.books,
+// //             placeholder: "Select books to borrow",
+// //             visible: (mode) => mode === "add",
+// //         },
+// //         {
+// //             key: "requestStatus",
+// //             type: "select",
+// //             label: "Status",
+// //             options: selectOptions.requestStatus,
+// //             visible: (mode) => mode === "edit", // Chỉ hiển thị khi edit
+// //         },
+// //     ];
+
+// //     const handleAdd = async (newBorrow) => {
+// //         try {
+// //             // Sử dụng ID của user hiện tại nếu không nhập
+// //             const userId = newBorrow.userId || (currentUser ? currentUser.id : null);
+
+// //             if (!userId) {
+// //                 throw new Error("User ID is required. Please log in or provide a User ID.");
+// //             }
+
+// //             // Kiểm tra xem có chọn sách không
+// //             if (!newBorrow.bookIds || newBorrow.bookIds.length === 0) {
+// //                 throw new Error("You must select at least one book.");
+// //             }
+
+// //             const payload = {
+// //                 userId: userId,
+// //                 borrowingDetails: Array.isArray(newBorrow.bookIds)
+// //                     ? newBorrow.bookIds.map((bookId) => ({ bookId }))
+// //                     : [{ bookId: newBorrow.bookIds }],
+// //             };
+
+// //             console.log("Creating borrow request with payload:", payload);
+// //             await createBorrowUseCase(payload);
+
+// //             // Refresh the data
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //             console.error("handleAdd error:", error);
+// //         }
+// //     };
+
+// //     const handleEdit = async (id, updatedBorrow) => {
+// //         try {
+// //             // Chỉ cập nhật trạng thái
+// //             const status = parseInt(updatedBorrow.requestStatus);
+// //             if (![0, 1, 2].includes(status)) {
+// //                 throw new Error("Invalid status value");
+// //             }
+
+// //             const payload = {
+// //                 requestStatus: status,
+// //             };
+
+// //             console.log(`Updating borrow request ${id} with status:`, status);
+// //             await updateBorrowUseCase(id, payload);
+
+// //             // Refresh the data
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //             console.error("handleEdit error:", error);
+// //         }
+// //     };
+
+// //     const handleDelete = async (id) => {
+// //         try {
+// //             await deleteBorrowUseCase(id);
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //         }
+// //     };
+
+// //     return (
+// //         <div>
+// //             {error && <div className="error-message">{error}</div>}
+// //             <CrudTable
+// //                 title="Borrowing Requests"
+// //                 data={borrows}
+// //                 columns={columns}
+// //                 formFields={formFields}
+// //                 onAdd={handleAdd}
+// //                 onEdit={handleEdit}
+// //                 onDelete={handleDelete}
+// //                 selectOptions={selectOptions}
+// //                 pagination={{
+// //                     current: currentPage,
+// //                     pageSize: pageSize,
+// //                     total: totalItems,
+// //                     onChange: (page, pageSize) => {
+// //                         setCurrentPage(page);
+// //                         setPageSize(pageSize);
+// //                     },
+// //                     showSizeChanger: true,
+// //                     pageSizeOptions: ["5", "10", "15", "20"],
+// //                 }}
+// //             />
+// //         </div>
+// //     );
+// // };
+
+// // export default BorrowAdminSite;
+// // import React, { useState, useEffect } from "react";
+// // import CrudTable from "../components/CrudTable";
+// // import { getBorrowsUseCase, createBorrowUseCase, updateBorrowUseCase, deleteBorrowUseCase } from "../domain/UseCases/borrowUseCase";
+// // import { getBooksUseCase } from "../domain/UseCases/bookUseCase"; // Thêm để lấy danh sách sách
+
+// // const BorrowAdminSite = () => {
+// //     const [borrows, setBorrows] = useState([]);
+// //     const [books, setBooks] = useState([]);
+// //     const [error, setError] = useState(null);
+// //     const [currentPage, setCurrentPage] = useState(1);
+// //     const [pageSize, setPageSize] = useState(10);
+// //     const [totalItems, setTotalItems] = useState(0);
+// //     const [currentUser, setCurrentUser] = useState(null);
+
+// //     useEffect(() => {
+// //         const fetchData = async () => {
+// //             try {
+// //                 // Lấy danh sách các request mượn sách
+// //                 const borrowsData = await getBorrowsUseCase();
+// //                 setBorrows(borrowsData);
+// //                 setTotalItems(borrowsData.length);
+
+// //                 // Lấy danh sách sách từ database
+// //                 const booksData = await getBooksUseCase();
+// //                 setBooks(booksData);
+
+// //                 // Lấy thông tin người dùng hiện tại (từ localStorage hoặc context)
+// //                 const user = JSON.parse(localStorage.getItem("user")) || null;
+// //                 setCurrentUser(user);
+// //             } catch (error) {
+// //                 setError(error.message);
+// //                 console.error("Failed to fetch data:", error);
+// //             }
+// //         };
+// //         fetchData();
+// //     }, []);
+
+// //     const statusMap = {
+// //         0: "Waiting",
+// //         1: "Approved",
+// //         2: "Rejected",
+// //     };
+
+// //     const selectOptions = {
+// //         requestStatus: [
+// //             { value: 0, label: "Waiting" },
+// //             { value: 1, label: "Approved" },
+// //             { value: 2, label: "Rejected" },
+// //         ],
+// //         bookIds: books.map((book) => ({
+// //             value: book.id,
+// //             label: `${book.title} (ID: ${book.id})`,
+// //         })),
+// //     };
+
+// //     const columns = [
+// //         { key: "id", label: "ID" },
+// //         {
+// //             key: "requestedDate",
+// //             label: "Requested Date",
+// //             render: (item) => new Date(item.requestedDate).toLocaleString(),
+// //         },
+// //         {
+// //             key: "requestStatus",
+// //             label: "Status",
+// //             render: (item) => statusMap[item.requestStatus] || "Unknown",
+// //         },
+// //         { key: "fullName", label: "Full Name" },
+// //         { key: "email", label: "Email" },
+// //         { key: "phoneNumber", label: "Phone Number" },
+// //         { key: "address", label: "Address" },
+// //         {
+// //             key: "borrowingDetails",
+// //             label: "Books",
+// //             render: (item) => item.borrowingDetails?.map((bd) => bd.bookName).join(", ") || "—",
+// //         },
+// //     ];
+
+// //     const formFields = [
+// //         {
+// //             key: "userId",
+// //             type: "text",
+// //             label: "User ID",
+// //             placeholder: "Leave empty for current user",
+// //             required: false,
+// //             visible: (mode) => mode === "create", // Chỉ hiển thị khi tạo mới
+// //         },
+// //         {
+// //             key: "bookIds",
+// //             type: "multiselect", // Sử dụng multiselect thay vì select để chọn nhiều sách
+// //             label: "Books",
+// //             required: true,
+// //             visible: (mode) => mode === "create", // Chỉ hiển thị khi tạo mới
+// //         },
+// //         {
+// //             key: "requestStatus",
+// //             type: "select",
+// //             label: "Status",
+// //             options: selectOptions.requestStatus,
+// //             required: true,
+// //             visible: (mode) => mode === "edit", // Chỉ hiển thị khi chỉnh sửa
+// //         },
+// //     ];
+
+// //     const handleAdd = async (newBorrow) => {
+// //         try {
+// //             // Sử dụng ID của user hiện tại nếu không nhập
+// //             const userId = newBorrow.userId || (currentUser ? currentUser.id : null);
+
+// //             if (!userId) {
+// //                 throw new Error("User ID is required. Please log in or provide a User ID.");
+// //             }
+
+// //             // Kiểm tra xem có chọn sách không
+// //             if (!newBorrow.bookIds || (Array.isArray(newBorrow.bookIds) && newBorrow.bookIds.length === 0)) {
+// //                 throw new Error("You must select at least one book.");
+// //             }
+
+// //             const payload = {
+// //                 userId: userId,
+// //                 borrowingDetails: Array.isArray(newBorrow.bookIds)
+// //                     ? newBorrow.bookIds.map((bookId) => ({ bookId }))
+// //                     : [{ bookId: newBorrow.bookIds }],
+// //             };
+
+// //             console.log("Creating borrow request with payload:", payload);
+// //             await createBorrowUseCase(payload);
+
+// //             // Refresh the data
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //             console.error("handleAdd error:", error);
+// //         }
+// //     };
+
+// //     const handleEdit = async (id, updatedBorrow) => {
+// //         try {
+// //             // Chỉ cập nhật trạng thái
+// //             const status = parseInt(updatedBorrow.requestStatus);
+// //             if (![0, 1, 2].includes(status)) {
+// //                 throw new Error("Invalid status value");
+// //             }
+
+// //             const payload = {
+// //                 requestStatus: status,
+// //             };
+
+// //             console.log(`Updating borrow request ${id} with status:`, status);
+// //             await updateBorrowUseCase(id, payload);
+
+// //             // Refresh the data
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //             console.error("handleEdit error:", error);
+// //         }
+// //     };
+
+// //     const handleDelete = async (id) => {
+// //         try {
+// //             await deleteBorrowUseCase(id);
+// //             const updated = await getBorrowsUseCase();
+// //             setBorrows(updated);
+// //             setTotalItems(updated.length);
+// //         } catch (error) {
+// //             setError(error.message);
+// //         }
+// //     };
+
+// //     return (
+// //         <div>
+// //             {error && <div className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
+// //             <CrudTable
+// //                 title="Borrowing Requests"
+// //                 data={borrows}
+// //                 columns={columns}
+// //                 formFields={formFields}
+// //                 onAdd={handleAdd}
+// //                 onEdit={handleEdit}
+// //                 onDelete={handleDelete}
+// //                 selectOptions={selectOptions}
+// //                 pagination={{
+// //                     current: currentPage,
+// //                     pageSize: pageSize,
+// //                     total: totalItems,
+// //                     onChange: (page, pageSize) => {
+// //                         setCurrentPage(page);
+// //                         setPageSize(pageSize);
+// //                     },
+// //                     showSizeChanger: true,
+// //                     pageSizeOptions: ["5", "10", "15", "20"],
+// //                 }}
+// //             />
+// //         </div>
+// //     );
+// // };
+
+// // export default BorrowAdminSite;
+
+// import React, { useState, useEffect } from "react";
+// import CrudTable from "../components/CrudTable";
+// import { getBorrowsUseCase, createBorrowUseCase, updateBorrowUseCase, deleteBorrowUseCase } from "../domain/UseCases/borrowUseCase";
+// import { getBooksUseCase } from "../domain/UseCases/bookUseCase";
+
+// const BorrowAdminSite = () => {
+//     const [borrows, setBorrows] = useState([]);
+//     const [books, setBooks] = useState([]);
+//     const [error, setError] = useState(null);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [pageSize, setPageSize] = useState(10);
+//     const [totalItems, setTotalItems] = useState(0);
+//     const [currentUser, setCurrentUser] = useState(null);
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 // Lấy thông tin người dùng hiện tại (từ localStorage hoặc context)
+//                 const user = JSON.parse(localStorage.getItem("user")) || null;
+//                 setCurrentUser(user);
+
+//                 // Lấy danh sách sách từ database
+//                 const booksData = await getBooksUseCase();
+//                 setBooks(booksData);
+
+//                 // Lấy danh sách các request mượn sách
+//                 const borrowsData = await getBorrowsUseCase();
+
+//                 // Làm phong phú dữ liệu borrowingDetails bằng tên sách
+//                 const enrichedBorrows = borrowsData.map((borrow) => {
+//                     const enrichedDetails =
+//                         borrow.borrowingDetails?.map((detail) => {
+//                             const book = booksData.find((b) => b.id === detail.bookId);
+//                             return {
+//                                 ...detail,
+//                                 bookName: book ? `${book.title} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                             };
+//                         }) || [];
+
+//                     return {
+//                         ...borrow,
+//                         borrowingDetails: enrichedDetails,
+//                     };
+//                 });
+
+//                 setBorrows(enrichedBorrows);
+//                 setTotalItems(enrichedBorrows.length);
+//             } catch (error) {
+//                 setError(error.message);
+//                 console.error("Failed to fetch data:", error);
+//             }
+//         };
+//         fetchData();
+//     }, []);
+
+//     const statusMap = {
+//         0: "Waiting",
+//         1: "Approved",
+//         2: "Rejected",
+//     };
+
+//     const selectOptions = {
+//         requestStatus: [
+//             { value: 0, label: "Waiting" },
+//             { value: 1, label: "Approved" },
+//             { value: 2, label: "Rejected" },
+//         ],
+//         bookIds: books.map((book) => ({
+//             value: book.id,
+//             label: `${book.title} (ID: ${book.id})`,
+//         })),
+//     };
+
+//     const columns = [
+//         { key: "id", label: "ID" },
+//         {
+//             key: "requestedDate",
+//             label: "Requested Date",
+//             render: (item) => new Date(item.requestedDate).toLocaleString(),
+//         },
+//         {
+//             key: "requestStatus",
+//             label: "Status",
+//             render: (item) => statusMap[item.requestStatus] || "Unknown",
+//         },
+//         { key: "fullName", label: "Full Name" },
+//         { key: "email", label: "Email" },
+//         { key: "phoneNumber", label: "Phone Number" },
+//         { key: "address", label: "Address" },
+//         {
+//             key: "borrowingDetails",
+//             label: "Books",
+//             render: (item) => item.borrowingDetails?.map((bd) => bd.bookName).join(", ") || "—",
+//         },
+//     ];
+
+//     const formFields = [
+//         {
+//             key: "userId",
+//             type: "text",
+//             label: "User ID",
+//             placeholder: "Leave empty for current user",
+//             required: false,
+//             visible: (mode) => mode === "create", // Chỉ hiển thị khi tạo mới
+//         },
+//         {
+//             key: "bookIds",
+//             type: "multiselect", // Sử dụng multiselect thay vì select để chọn nhiều sách
+//             label: "Books",
+//             required: true,
+//             visible: (mode) => mode === "create", // Chỉ hiển thị khi tạo mới
+//         },
+//         {
+//             key: "requestStatus",
+//             type: "select",
+//             label: "Status",
+//             options: selectOptions.requestStatus,
+//             required: true,
+//             visible: (mode) => mode === "edit", // Chỉ hiển thị khi chỉnh sửa
+//         },
+//     ];
+
+//     const handleAdd = async (newBorrow) => {
+//         try {
+//             // Sử dụng ID của user hiện tại nếu không nhập
+//             const userId = newBorrow.userId || (currentUser && currentUser.id);
+
+//             if (!userId) {
+//                 throw new Error("User ID is required. Please log in or provide a User ID.");
+//             }
+
+//             // Kiểm tra xem có chọn sách không
+//             if (!newBorrow.bookIds || (Array.isArray(newBorrow.bookIds) && newBorrow.bookIds.length === 0)) {
+//                 throw new Error("You must select at least one book.");
+//             }
+
+//             const payload = {
+//                 userId: userId,
+//                 borrowingDetails: Array.isArray(newBorrow.bookIds)
+//                     ? newBorrow.bookIds.map((bookId) => ({ bookId }))
+//                     : [{ bookId: newBorrow.bookIds }],
+//             };
+
+//             console.log("Creating borrow request with payload:", payload);
+//             await createBorrowUseCase(payload);
+
+//             // Refresh the data after creation
+//             const booksData = await getBooksUseCase();
+//             const borrowsData = await getBorrowsUseCase();
+
+//             // Làm phong phú dữ liệu borrowingDetails bằng tên sách
+//             const enrichedBorrows = borrowsData.map((borrow) => {
+//                 const enrichedDetails =
+//                     borrow.borrowingDetails?.map((detail) => {
+//                         const book = booksData.find((b) => b.id === detail.bookId);
+//                         return {
+//                             ...detail,
+//                             bookName: book ? `${book.title} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                         };
+//                     }) || [];
+
+//                 return {
+//                     ...borrow,
+//                     borrowingDetails: enrichedDetails,
+//                 };
+//             });
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null); // Clear any previous errors
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleAdd error:", error);
+//         }
+//     };
+
+//     const handleEdit = async (id, updatedBorrow) => {
+//         try {
+//             // Chỉ cập nhật trạng thái
+//             const status = parseInt(updatedBorrow.requestStatus);
+//             if (![0, 1, 2].includes(status)) {
+//                 throw new Error("Invalid status value");
+//             }
+
+//             const payload = {
+//                 requestStatus: status,
+//             };
+
+//             console.log(`Updating borrow request ${id} with status:`, status);
+//             await updateBorrowUseCase(id, payload);
+
+//             // Refresh the data after update
+//             const booksData = await getBooksUseCase();
+//             const borrowsData = await getBorrowsUseCase();
+
+//             // Làm phong phú dữ liệu borrowingDetails bằng tên sách
+//             const enrichedBorrows = borrowsData.map((borrow) => {
+//                 const enrichedDetails =
+//                     borrow.borrowingDetails?.map((detail) => {
+//                         const book = booksData.find((b) => b.id === detail.bookId);
+//                         return {
+//                             ...detail,
+//                             bookName: book ? `${book.title} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                         };
+//                     }) || [];
+
+//                 return {
+//                     ...borrow,
+//                     borrowingDetails: enrichedDetails,
+//                 };
+//             });
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null); // Clear any previous errors
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleEdit error:", error);
+//         }
+//     };
+
+//     const handleDelete = async (id) => {
+//         try {
+//             await deleteBorrowUseCase(id);
+
+//             // Refresh the data after deletion
+//             const booksData = await getBooksUseCase();
+//             const borrowsData = await getBorrowsUseCase();
+
+//             // Làm phong phú dữ liệu borrowingDetails bằng tên sách
+//             const enrichedBorrows = borrowsData.map((borrow) => {
+//                 const enrichedDetails =
+//                     borrow.borrowingDetails?.map((detail) => {
+//                         const book = booksData.find((b) => b.id === detail.bookId);
+//                         return {
+//                             ...detail,
+//                             bookName: book ? `${book.title} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                         };
+//                     }) || [];
+
+//                 return {
+//                     ...borrow,
+//                     borrowingDetails: enrichedDetails,
+//                 };
+//             });
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null); // Clear any previous errors
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleDelete error:", error);
+//         }
+//     };
+
+//     return (
+//         <div>
+//             {error && <div className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
+//             <CrudTable
+//                 title="Borrowing Requests"
+//                 data={borrows}
+//                 columns={columns}
+//                 formFields={formFields}
+//                 onAdd={handleAdd}
+//                 onEdit={handleEdit}
+//                 onDelete={handleDelete}
+//                 selectOptions={selectOptions}
+//                 pagination={{
+//                     current: currentPage,
+//                     pageSize: pageSize,
+//                     total: totalItems,
+//                     onChange: (page, pageSize) => {
+//                         setCurrentPage(page);
+//                         setPageSize(pageSize);
+//                     },
+//                     showSizeChanger: true,
+//                     pageSizeOptions: ["5", "10", "15", "20"],
+//                 }}
+//             />
+//         </div>
+//     );
+// };
+
+// export default BorrowAdminSite;
+// import React, { useState, useEffect } from "react";
+// import CrudTable from "../components/CrudTable";
+// import { getBorrowsUseCase, createBorrowUseCase, updateBorrowUseCase, deleteBorrowUseCase } from "../domain/UseCases/borrowUseCase";
+// import { getBooksUseCase, getBookByIdUseCase } from "../domain/UseCases/bookUseCase";
+
+// const BorrowAdminSite = () => {
+//     const [borrows, setBorrows] = useState([]);
+//     const [books, setBooks] = useState([]);
+//     const [error, setError] = useState(null);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [pageSize, setPageSize] = useState(10);
+//     const [totalItems, setTotalItems] = useState(0);
+//     const [currentUser, setCurrentUser] = useState(null);
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 // Lấy thông tin người dùng hiện tại
+//                 const user = JSON.parse(localStorage.getItem("user")) || null;
+//                 setCurrentUser(user);
+
+//                 // Lấy danh sách sách từ database
+//                 const booksData = await getBooksUseCase();
+//                 setBooks(booksData);
+
+//                 // Lấy danh sách các request mượn sách
+//                 const borrowsData = await getBorrowsUseCase();
+
+//                 // Làm phong phú dữ liệu borrowingDetails bằng tên sách
+//                 const enrichedBorrows = await Promise.all(
+//                     borrowsData.map(async (borrow) => {
+//                         const enrichedDetails = await Promise.all(
+//                             borrow.borrowingDetails?.map(async (detail) => {
+//                                 try {
+//                                     const book = await getBookByIdUseCase(detail.bookId);
+//                                     return {
+//                                         ...detail,
+//                                         bookName: book ? `${book.bookName} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                                     };
+//                                 } catch (error) {
+//                                     console.error(`Failed to fetch book ${detail.bookId}:`, error);
+//                                     return {
+//                                         ...detail,
+//                                         bookName: `Book ID: ${detail.bookId}`,
+//                                     };
+//                                 }
+//                             }) || [],
+//                         );
+//                         return {
+//                             ...borrow,
+//                             borrowingDetails: enrichedDetails,
+//                         };
+//                     }),
+//                 );
+
+//                 setBorrows(enrichedBorrows);
+//                 setTotalItems(enrichedBorrows.length);
+//             } catch (error) {
+//                 setError(error.message);
+//                 console.error("Failed to fetch data:", error);
+//             }
+//         };
+//         fetchData();
+//     }, []);
+
+//     const statusMap = {
+//         0: "Waiting",
+//         1: "Approved",
+//         2: "Rejected",
+//     };
+
+//     const selectOptions = {
+//         requestStatus: [
+//             { value: 0, label: "Waiting" },
+//             { value: 1, label: "Approved" },
+//             { value: 2, label: "Rejected" },
+//         ],
+//         bookIds: books.map((book) => ({
+//             value: book.id,
+//             label: `${book.bookName} (ID: ${book.id})`,
+//         })),
+//     };
+
+//     const columns = [
+//         { key: "id", label: "ID" },
+//         {
+//             key: "requestedDate",
+//             label: "Requested Date",
+//             render: (item) => new Date(item.requestedDate).toLocaleString(),
+//         },
+//         {
+//             key: "requestStatus",
+//             label: "Status",
+//             render: (item) => statusMap[item.requestStatus] || "Unknown",
+//         },
+//         { key: "fullName", label: "Full Name" },
+//         { key: "email", label: "Email" },
+//         { key: "phoneNumber", label: "Phone Number" },
+//         { key: "address", label: "Address" },
+//         {
+//             key: "borrowingDetails",
+//             label: "Books",
+//             render: (item) => item.borrowingDetails?.map((bd) => bd.bookName).join(", ") || "—",
+//         },
+//     ];
+
+//     const formFields = [
+//         {
+//             key: "userId",
+//             type: "text",
+//             label: "User ID",
+//             placeholder: "Leave empty for current user",
+//             required: false,
+//             visible: (mode) => mode === "create",
+//         },
+//         {
+//             key: "bookIds",
+//             type: "select",
+//             label: "Books",
+//             multiple: true,
+//             required: true,
+//             visible: (mode) => mode === "create",
+//         },
+//         {
+//             key: "requestStatus",
+//             type: "select",
+//             label: "Status",
+//             required: true,
+//             visible: (mode) => mode === "edit",
+//         },
+//     ];
+
+//     const handleAdd = async (newBorrow) => {
+//         try {
+//             const userId = newBorrow.userId || (currentUser && currentUser.id);
+//             if (!userId) {
+//                 throw new Error("User ID is required. Please log in or provide a User ID.");
+//             }
+//             if (!newBorrow.bookIds || newBorrow.bookIds.length === 0) {
+//                 throw new Error("You must select at least one book.");
+//             }
+
+//             const payload = {
+//                 userId: userId,
+//                 borrowingDetails: newBorrow.bookIds.map((bookId) => ({ bookId })),
+//             };
+
+//             await createBorrowUseCase(payload);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             const enrichedBorrows = await Promise.all(
+//                 borrowsData.map(async (borrow) => {
+//                     const enrichedDetails = await Promise.all(
+//                         borrow.borrowingDetails?.map(async (detail) => {
+//                             try {
+//                                 const book = await getBookByIdUseCase(detail.bookId);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: book ? `${book.bookName} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                                 };
+//                             } catch (error) {
+//                                 console.error(`Failed to fetch book ${detail.bookId}:`, error);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: `Book ID: ${detail.bookId}`,
+//                                 };
+//                             }
+//                         }) || [],
+//                     );
+//                     return {
+//                         ...borrow,
+//                         borrowingDetails: enrichedDetails,
+//                     };
+//                 }),
+//             );
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleAdd error:", error);
+//         }
+//     };
+
+//     const handleEdit = async (id, updatedBorrow) => {
+//         try {
+//             const status = parseInt(updatedBorrow.requestStatus);
+//             if (![0, 1, 2].includes(status)) {
+//                 throw new Error("Invalid status value");
+//             }
+
+//             const payload = {
+//                 requestStatus: status,
+//             };
+
+//             await updateBorrowUseCase(id, payload);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             const enrichedBorrows = await Promise.all(
+//                 borrowsData.map(async (borrow) => {
+//                     const enrichedDetails = await Promise.all(
+//                         borrow.borrowingDetails?.map(async (detail) => {
+//                             try {
+//                                 const book = await getBookByIdUseCase(detail.bookId);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: book ? `${book.bookName} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                                 };
+//                             } catch (error) {
+//                                 console.error(`Failed to fetch book ${detail.bookId}:`, error);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: `Book ID: ${detail.bookId}`,
+//                                 };
+//                             }
+//                         }) || [],
+//                     );
+//                     return {
+//                         ...borrow,
+//                         borrowingDetails: enrichedDetails,
+//                     };
+//                 }),
+//             );
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleEdit error:", error);
+//         }
+//     };
+
+//     const handleDelete = async (id) => {
+//         try {
+//             await deleteBorrowUseCase(id);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             const enrichedBorrows = await Promise.all(
+//                 borrowsData.map(async (borrow) => {
+//                     const enrichedDetails = await Promise.all(
+//                         borrow.borrowingDetails?.map(async (detail) => {
+//                             try {
+//                                 const book = await getBookByIdUseCase(detail.bookId);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: book ? `${book.bookName} (ID: ${book.id})` : `Book ID: ${detail.bookId}`,
+//                                 };
+//                             } catch (error) {
+//                                 console.error(`Failed to fetch book ${detail.bookId}:`, error);
+//                                 return {
+//                                     ...detail,
+//                                     bookName: `Book ID: ${detail.bookId}`,
+//                                 };
+//                             }
+//                         }) || [],
+//                     );
+//                     return {
+//                         ...borrow,
+//                         borrowingDetails: enrichedDetails,
+//                     };
+//                 }),
+//             );
+
+//             setBorrows(enrichedBorrows);
+//             setTotalItems(enrichedBorrows.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleDelete error:", error);
+//         }
+//     };
+
+//     return (
+//         <div>
+//             {error && <div className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
+//             <CrudTable
+//                 title="Borrowing Requests"
+//                 data={borrows}
+//                 columns={columns}
+//                 formFields={formFields}
+//                 onAdd={handleAdd}
+//                 onEdit={handleEdit}
+//                 onDelete={handleDelete}
+//                 selectOptions={selectOptions}
+//                 pagination={{
+//                     current: currentPage,
+//                     pageSize: pageSize,
+//                     total: totalItems,
+//                     onChange: (page, pageSize) => {
+//                         setCurrentPage(page);
+//                         setPageSize(pageSize);
+//                     },
+//                     showSizeChanger: true,
+//                     pageSizeOptions: ["5", "10", "15", "20"],
+//                 }}
+//             />
+//         </div>
+//     );
+// };
+
+// export default BorrowAdminSite;
+
+// import React, { useState, useEffect } from "react";
+// import CrudTable from "../components/CrudTable";
+// import { getBorrowsUseCase, createBorrowUseCase, updateBorrowUseCase, deleteBorrowUseCase } from "../domain/UseCases/borrowUseCase";
+// import { getBooksUseCase } from "../domain/UseCases/bookUseCase";
+
+// const BorrowAdminSite = () => {
+//     const [borrows, setBorrows] = useState([]);
+//     const [books, setBooks] = useState([]);
+//     const [error, setError] = useState(null);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [pageSize, setPageSize] = useState(10);
+//     const [totalItems, setTotalItems] = useState(0);
+//     const [currentUser, setCurrentUser] = useState(null);
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 // Lấy thông tin người dùng hiện tại
+//                 const user = JSON.parse(localStorage.getItem("user")) || null;
+//                 setCurrentUser(user);
+
+//                 // Lấy danh sách sách từ database
+//                 const booksData = await getBooksUseCase();
+//                 setBooks(booksData);
+
+//                 // Lấy danh sách các request mượn sách
+//                 const borrowsData = await getBorrowsUseCase();
+//                 setBorrows(borrowsData);
+//                 setTotalItems(borrowsData.length);
+//             } catch (error) {
+//                 setError(error.message);
+//                 console.error("Failed to fetch data:", error);
+//             }
+//         };
+//         fetchData();
+//     }, []);
+
+//     const statusMap = {
+//         0: "Waiting",
+//         1: "Approved",
+//         2: "Rejected",
+//     };
+
+//     const selectOptions = {
+//         requestStatus: [
+//             { value: 0, label: "Waiting" },
+//             { value: 1, label: "Approved" },
+//             { value: 2, label: "Rejected" },
+//         ],
+//         bookIds: books.map((book) => ({
+//             value: book.id,
+//             label: `${book.name} (ID: ${book.id})`,
+//         })),
+//     };
+
+//     const columns = [
+//         { key: "id", label: "ID" },
+//         {
+//             key: "requestedDate",
+//             label: "Requested Date",
+//             render: (item) => new Date(item.requestedDate).toLocaleString(),
+//         },
+//         {
+//             key: "requestStatus",
+//             label: "Status",
+//             render: (item) => statusMap[item.requestStatus] || "Unknown",
+//         },
+//         { key: "fullName", label: "Full Name" },
+//         { key: "email", label: "Email" },
+//         { key: "phoneNumber", label: "Phone Number" },
+//         { key: "address", label: "Address" },
+//         {
+//             key: "borrowingDetails",
+//             label: "Books",
+//             render: (item) => item.borrowingDetails?.map((bd) => bd.bookName).join(", ") || "—",
+//         },
+//     ];
+
+//     const formFields = [
+//         {
+//             key: "userId",
+//             type: "text",
+//             label: "User ID",
+//             placeholder: "Leave empty for current user",
+//             required: false,
+//             visible: (mode) => mode === "create",
+//         },
+//         {
+//             key: "bookIds",
+//             type: "select",
+//             label: "Books",
+//             multiple: true,
+//             required: true,
+//             visible: (mode) => mode === "create",
+//         },
+//         {
+//             key: "requestStatus",
+//             type: "select",
+//             label: "Status",
+//             required: true,
+//             visible: (mode) => mode === "edit",
+//         },
+//     ];
+
+//     const handleAdd = async (newBorrow) => {
+//         try {
+//             const userId = newBorrow.userId || (currentUser && currentUser.id);
+//             if (!userId) {
+//                 throw new Error("User ID is required. Please log in or provide a User ID.");
+//             }
+//             if (!newBorrow.bookIds || newBorrow.bookIds.length === 0) {
+//                 throw new Error("You must select at least one book.");
+//             }
+
+//             const payload = {
+//                 userId: userId,
+//                 borrowingDetails: newBorrow.bookIds.map((bookId) => ({ bookId })),
+//             };
+
+//             await createBorrowUseCase(payload);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             setBorrows(borrowsData);
+//             setTotalItems(borrowsData.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleAdd error:", error);
+//         }
+//     };
+
+//     const handleEdit = async (id, updatedBorrow) => {
+//         try {
+//             const status = parseInt(updatedBorrow.requestStatus);
+//             if (![0, 1, 2].includes(status)) {
+//                 throw new Error("Invalid status value");
+//             }
+
+//             const payload = {
+//                 requestStatus: status,
+//             };
+
+//             await updateBorrowUseCase(id, payload);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             setBorrows(borrowsData);
+//             setTotalItems(borrowsData.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleEdit error:", error);
+//         }
+//     };
+
+//     const handleDelete = async (id) => {
+//         try {
+//             await deleteBorrowUseCase(id);
+
+//             // Refresh the data
+//             const booksData = await getBooksUseCase();
+//             setBooks(booksData);
+//             const borrowsData = await getBorrowsUseCase();
+//             setBorrows(borrowsData);
+//             setTotalItems(borrowsData.length);
+//             setError(null);
+//         } catch (error) {
+//             setError(error.message);
+//             console.error("handleDelete error:", error);
+//         }
+//     };
+
+//     return (
+//         <div>
+//             {error && <div className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">{error}</div>}
+//             <CrudTable
+//                 title="Borrowing Requests"
+//                 data={borrows}
+//                 columns={columns}
+//                 formFields={formFields}
+//                 onAdd={handleAdd}
+//                 onEdit={handleEdit}
+//                 onDelete={handleDelete}
+//                 selectOptions={selectOptions}
+//                 pagination={{
+//                     current: currentPage,
+//                     pageSize: pageSize,
+//                     total: totalItems,
+//                     onChange: (page, pageSize) => {
+//                         setCurrentPage(page);
+//                         setPageSize(pageSize);
+//                     },
+//                     showSizeChanger: true,
+//                     pageSizeOptions: ["5", "10", "15", "20"],
+//                 }}
+//             />
+//         </div>
+//     );
+// };
+
+// export default BorrowAdminSite;

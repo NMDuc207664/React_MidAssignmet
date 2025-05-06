@@ -1,0 +1,122 @@
+<!-- redux tookit
+
+ <Menu
+                    mode="horizontal"
+                    items={menuItems}
+                    onClick={onClick}
+                    className="flex-1 border-0 bg-transparent"
+                />
+                <Dropdown
+                    menu={{ items: userMenuItems }}
+                    trigger={["click"]}
+                >
+                    <Button
+                        type="text"
+                        className="flex items-center text-gray-800 dark:text-white"
+                    >
+                        <span className="mr-2">{user.name}</span>
+                        <DownOutlined />
+                    </Button>
+                </Dropdown>
+
+                // <ThemeProvider storageKey="Theme">
+                    //     <RouterProvider router={router}></RouterProvider>
+                    // </ThemeProvider>
+                    // <ThemeProvider>
+                    //     {/* <BrowserRouter>
+                    //         <div className="flex min-h-screen flex-col bg-gray-100 transition-colors duration-300 dark:bg-gray-900">
+                    //             <Header />
+                    //             <div className="container mx-auto flex-1 p-4 pt-20">
+                    //                 <Routes>
+                    //                     <Route
+                    //                         path="/"
+                    //                         element={<AdminDashboard />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/home"
+                    //                         element={<AdminDashboard />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/about"
+                    //                         element={<About />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/dashboard"
+                    //                         element={<AdminDashboard />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/profile"
+                    //                         element={<div>Profile Page</div>}
+                    //                     />
+                    //                     <Route
+                    //                         path="/history"
+                    //                         element={<div>Lịch sử request</div>}
+                    //                     />
+                    //                     <Route
+                    //                         path="/logout"
+                    //                         element={<div>Đăng xuất</div>}
+                    //                     />
+                    //                 </Routes>
+                    //             </div>
+                    //             <Footer />
+                    //         </div>
+                    //     </BrowserRouter> */}
+                    //     <BrowserRouter>
+                    //         <div className="flex min-h-screen flex-col bg-gray-100">
+                    //             <Header />
+                    //             <div className="container mx-auto flex-1 p-4">
+                    //                 <Routes>
+                    //                     <Route
+                    //                         path="/login"
+                    //                         element={<LoginPage />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/register"
+                    //                         element={<RegisterPage />}
+                    //                     />
+                    //                     {/* <Route
+                    //                         path="/"
+                    //                         element={<AdminDashboard />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/home"
+                    //                         element={<AdminDashboard />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/about"
+                    //                         element={<About />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/authors"
+                    //                         element={<AuthorsPage />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/books"
+                    //                         element={<BooksPage />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/genres"
+                    //                         element={<GenresPage />}
+                    //                     />
+                    //                     <Route
+                    //                         path="/"
+                    //                         element={<div>Home Page</div>}
+                    //                     />
+                    //                     <Route
+                    //                         path="/profile"
+                    //                         element={<div>Profile Page</div>}
+                    //                     />
+                    //                     <Route
+                    //                         path="/history"
+                    //                         element={<div>Lịch sử request</div>}
+                    //                     />
+                    //                     <Route
+                    //                         path="/logout"
+                    //                         element={<div>Đăng xuất</div>}
+                    //                     /> */}
+                    //                 </Routes>
+                    //             </div>
+                    //             <Footer />
+                    //         </div>
+                    //     </BrowserRouter>
+                    // </ThemeProvider> -->

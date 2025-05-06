@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "antd/dist/reset.css";
+
+.dark .ant-menu {
+    @apply bg-gray-800 text-white;
+}
+.dark .ant-menu-item:hover {
+    @apply bg-gray-700;
+}
