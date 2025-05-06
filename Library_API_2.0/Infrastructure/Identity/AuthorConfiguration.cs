@@ -21,7 +21,6 @@ namespace Library_API_2._0.Infrastructure.Identity
                 Name = "Đang cập nhật",
             }
            );
-            // builder.HasQueryFilter(g => g.Id != Guid.Parse("B625C683-D11B-4B3D-B440-CFDD51C26E92"));
         }
     }
 }

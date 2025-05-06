@@ -6,7 +6,7 @@ namespace Library_API_2._0.Domain.Policies.BorrowRequestPolicy
     {
         public bool CanBorrow(int requestCountThisMonth)
         {
-            return requestCountThisMonth <= 3;
+            return requestCountThisMonth < 3;
         }
 
         public bool CanDeleteRequest(Guid requestId, BorrowingRequest request, DateTime currentDate)

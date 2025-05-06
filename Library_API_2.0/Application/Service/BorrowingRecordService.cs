@@ -207,9 +207,9 @@ namespace Library_API_2._0.Application.Service
                 r.BorrowingRequest.RequestStatus == RequestStatus.Approved &&
                 (
                     (!r.HasPickedUp && r.BorrowingRequest.ApprovedorDeniedDate.HasValue &&
-                     r.BorrowingRequest.ApprovedorDeniedDate.Value <= currentTime.Date.AddMinutes(-_borrowingPeriodDays)) ||
+                     r.BorrowingRequest.ApprovedorDeniedDate.Value <= currentTime.Date.AddDays(-_borrowingPeriodDays)) ||
                     (r.HasPickedUp && !r.HasReturned && r.PickUpDate.HasValue &&
-                     r.PickUpDate.Value <= currentTime.Date.AddMinutes(-_borrowingPeriodDays))
+                     r.PickUpDate.Value <= currentTime.Date.AddDays(-_borrowingPeriodDays))
                 ));
 
             foreach (var record in records)
@@ -222,7 +222,7 @@ namespace Library_API_2._0.Application.Service
                 }
 
                 var approvedDate = request.ApprovedorDeniedDate.Value;
-                var dueDate = approvedDate.AddMinutes(_borrowingPeriodDays);
+                var dueDate = approvedDate.AddDays(_borrowingPeriodDays);
                 Console.WriteLine($"Record {record.Id}: ApprovedDate = {approvedDate}, CurrentTime = {currentTime}, DueDate = {dueDate}, HasPickedUp = {record.HasPickedUp}");
 
                 if (!record.HasPickedUp && currentTime.Date > dueDate)
@@ -242,7 +242,7 @@ namespace Library_API_2._0.Application.Service
                 }
                 else if (record.HasPickedUp && !record.HasReturned && record.PickUpDate.HasValue)
                 {
-                    var pickUpDueDate = record.PickUpDate.Value.AddMinutes(_borrowingPeriodDays);
+                    var pickUpDueDate = record.PickUpDate.Value.AddDays(_borrowingPeriodDays);
                     if (currentTime.Date > pickUpDueDate)
                     {
                         record.ReturnStatus = ReturnStatus.Overdue;
